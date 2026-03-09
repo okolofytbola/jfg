@@ -1,0 +1,238 @@
+void main() {
+  List<({String student, String subject, int grade})> journalData = [
+    (student: 'Даня', subject: 'Математика', grade: 3),
+    (student: 'Даня', subject: 'Физика', grade: 5),
+    (student: 'Даня', subject: 'Информатика', grade: 5),
+    (student: 'Даня', subject: 'История', grade: 4),
+    (student: 'Даня', subject: 'Английский', grade: 2),
+
+    (student: 'Жасур', subject: 'Математика', grade: 4),
+    (student: 'Жасур', subject: 'Физика', grade: 3),
+    (student: 'Жасур', subject: 'Информатика', grade: 4),
+    (student: 'Жасур', subject: 'История', grade: 5),
+    (student: 'Жасур', subject: 'Английский', grade: 3),
+
+    (student: 'Попов', subject: 'Математика', grade: 3),
+    (student: 'Попов', subject: 'Физика', grade: 2),
+    (student: 'Попов', subject: 'Информатика', grade: 3),
+    (student: 'Попов', subject: 'История', grade: 3),
+    (student: 'Попов', subject: 'Английский', grade: 2),
+
+    (student: 'Димас', subject: 'Математика', grade: 5),
+    (student: 'Димас', subject: 'Физика', grade: 4),
+    (student: 'Димас', subject: 'Информатика', grade: 5),
+    (student: 'Димас', subject: 'История', grade: 5),
+    (student: 'Димас', subject: 'Английский', grade: 4),
+
+    (student: 'Давид', subject: 'Математика', grade: 2),
+    (student: 'Давид', subject: 'Физика', grade: 3),
+    (student: 'Давид', subject: 'Информатика', grade: 4),
+    (student: 'Давид', subject: 'История', grade: 2),
+    (student: 'Давид', subject: 'Английский', grade: 3),
+
+    (student: 'Ваня', subject: 'Математика', grade: 4),
+    (student: 'Ваня', subject: 'Физика', grade: 4),
+    (student: 'Ваня', subject: 'Информатика', grade: 3),
+    (student: 'Ваня', subject: 'История', grade: 4),
+    (student: 'Ваня', subject: 'Английский', grade: 5),
+
+    (student: 'Илюха', subject: 'Математика', grade: 3),
+    (student: 'Илюха', subject: 'Физика', grade: 2),
+    (student: 'Илюха', subject: 'Информатика', grade: 2),
+    (student: 'Илюха', subject: 'История', grade: 3),
+    (student: 'Илюха', subject: 'Английский', grade: 3),
+  ];
+
+  Set<String> studentsSet = <String>{};
+  Set<String> subjectsSet = <String>{};
+
+  for (var record in journalData) {
+    studentsSet.add(record.student);
+    subjectsSet.add(record.subject);
+  }
+
+  List<String> studentsList = studentsSet.toList();
+  List<String> subjectsList = subjectsSet.toList();
+
+  print('1. КАТЕГОРИИ СТУДЕНТОВ ПО СРЕДНЕМУ БАЛЛУ');
+
+  List<String> excellent = <String>[];
+  List<String> good = <String>[];
+  List<String> others = <String>[];
+
+  for (var name in studentsList) {
+    int sum = 0;
+    int count = 0;
+
+    for (var rec in journalData) {
+      if (rec.student == name) {
+        sum += rec.grade;
+        count++;
+      }
+    }
+
+    double avg = count > 0 ? sum / count : 0.0;
+
+    if (avg >= 4.5) {
+      excellent.add(name);
+    } else if (avg >= 3.5) {
+      good.add(name);
+    } else {
+      others.add(name);
+    }
+  }
+
+  print('Отличники (>= 4.5): $excellent');
+  print('Хорошисты (3.5 - 4.5): $good');
+  print('Остальные (< 3.5): $others');
+
+  print('\n2. КОЛИЧЕСТВО КАЖДОЙ ОЦЕНКИ В ЖУРНАЛЕ');
+
+  Map<int, int> gradeStats = <int, int>{2: 0, 3: 0, 4: 0, 5: 0};
+
+  for (var rec in journalData) {
+    int g = rec.grade;
+    if (gradeStats.containsKey(g)) {
+      gradeStats[g] = gradeStats[g]! + 1;
+    }
+  }
+
+  for (var g in [2, 3, 4, 5]) {
+    print('Оценка $g: ${gradeStats[g]} раз(а)');
+  }
+
+  print('\n3. СТУДЕНТЫ С ПЯТЁРКОЙ ПО КАЖДОМУ ПРЕДМЕТУ');
+
+  for (var subj in subjectsList) {
+    List<String> topStudents = <String>[];
+
+    for (var rec in journalData) {
+      if (rec.subject == subj && rec.grade == 5) {
+        topStudents.add(rec.student);
+      }
+    }
+
+    if (topStudents.isEmpty) {
+      print('$subj: никто');
+    } else {
+      print('$subj: ${topStudents.join(", ")}');
+    }
+  }
+
+  print('\n4. ПРЕДМЕТЫ БЕЗ ДВОЕК');
+
+  List<String> safeSubjects = <String>[];
+
+  for (var subj in subjectsList) {
+    bool hasFail = false;
+
+    for (var rec in journalData) {
+      if (rec.subject == subj && rec.grade == 2) {
+        hasFail = true;
+        break;
+      }
+    }
+
+    if (!hasFail) {
+      safeSubjects.add(subj);
+    }
+  }
+
+  if (safeSubjects.isEmpty) {
+    print('Нет таких предметов');
+  } else {
+    print('Предметы без двоек: ${safeSubjects.join(", ")}');
+  }
+
+  print('\n5. ПРЕДМЕТ С НАИБОЛЬШИМ КОЛИЧЕСТВОМ ДВОЕК');
+
+  Map<String, int> failCounts = <String, int>{};
+
+  for (var subj in subjectsList) {
+    int count = 0;
+
+    for (var rec in journalData) {
+      if (rec.subject == subj && rec.grade == 2) {
+        count++;
+      }
+    }
+
+    failCounts[subj] = count;
+  }
+
+  int maxFails = 0;
+
+  for (var count in failCounts.values) {
+    if (count > maxFails) {
+      maxFails = count;
+    }
+  }
+
+  if (maxFails == 0) {
+    print('Двоек нет ни по одному предмету');
+  } else {
+    for (var entry in failCounts.entries) {
+      if (entry.value == maxFails) {
+        print('${entry.key} — $maxFails двойки(-ек)');
+      }
+    }
+  }
+
+  print('\n6. СТУДЕНТЫ С НАИБОЛЬШИМ КОЛИЧЕСТВОМ ПЯТЁРОК');
+
+  Map<String, int> fiveCounts = <String, int>{};
+
+  for (var name in studentsList) {
+    int count = 0;
+
+    for (var rec in journalData) {
+      if (rec.student == name && rec.grade == 5) {
+        count++;
+      }
+    }
+
+    fiveCounts[name] = count;
+  }
+
+  int maxFives = 0;
+
+  for (var count in fiveCounts.values) {
+    if (count > maxFives) {
+      maxFives = count;
+    }
+  }
+
+  for (var entry in fiveCounts.entries) {
+    if (entry.value == maxFives && maxFives > 0) {
+      print('${entry.key} — ${entry.value} пятёрок');
+    }
+  }
+
+  print('\n7. ПРЕДМЕТЫ С ОЦЕНКОЙ НИЖЕ 4 ПО СТУДЕНТАМ');
+
+  for (var name in studentsList) {
+    List<String> weakSubjects = <String>[];
+
+    for (var rec in journalData) {
+      if (rec.student == name && rec.grade < 4) {
+        weakSubjects.add('${rec.subject}(${rec.grade})');
+      }
+    }
+
+    if (weakSubjects.isNotEmpty) {
+      print('$name: ${weakSubjects.length} предмет(а) — ${weakSubjects.join(", ")}');
+    }
+  }
+
+  print('\n8. ВСЕ ПАРЫ «СТУДЕНТ — ПРЕДМЕТ» С ОЦЕНКОЙ 5');
+
+  int totalPairs = 0;
+
+  for (var rec in journalData) {
+    if (rec.grade == 5) {
+      print('${rec.student} — ${rec.subject}');
+      totalPairs++;
+    }
+  }
+  print('\nВсего пар с пятёркой: $totalPairs');
+}
