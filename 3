@@ -1,0 +1,78 @@
+String formatName(String firstName,String lastName,[String? middleName]){
+  if(middleName!=null){
+    return "$lastName $lastName $middleName";
+  }
+  else{
+    return"$firstName $lastName";
+  }
+
+  
+}
+calculate(num a,num b,String operation){
+  switch(operation){
+    case'+':
+      return a+b;
+    case '-':
+      return a-b;
+    case '*':
+      return a*b;
+    case'/':
+      if (b == 0) return null;
+      return a / b;
+    default:
+      return null;
+  } 
+}
+countSings(List<int> numbers){
+  int positiv=0;
+  int negativ=0;
+  int zero=0;
+  for(var num in numbers){
+    if(num>0){
+    positiv++;}
+    else if(num<0){
+    negativ++;}
+    else{
+      zero++;
+    }
+    print("Положительных:$positiv");
+    print("Отрицательных:$negativ");
+    print("Нулевых:$zero");
+
+  }
+}
+List<int> transformList(List<int> numbers, int Function(int) transformer) {
+  List<int> result = [];
+  for (var num in numbers) {
+    int transformed = transformer(num);
+    result.add(transformed);
+  }
+  return result;
+}
+sumDigits(int number) {
+  if (number < 10) {
+    return number;
+  }
+  return number % 10 + sumDigits(number ~/ 10);
+}
+
+
+
+void main(){
+  print(formatName("ДАнек", "Лозовой"));
+  print(formatName("Давид", "Исаханян","Эрикович"));
+
+  print(calculate(21312, 321131, "+"));
+  print(calculate(10, 0, "/"));
+  print(calculate(5, 7, "*"));
+
+  countSings([1, -2, 0, 5, -3, 0]);
+
+  var result = transformList([1, 2, 3], (x) => x * 2);
+  print(result);  
+  
+  
+  print(sumDigits(123));  
+  print(sumDigits(987));  
+
+}
