@@ -1,0 +1,17 @@
+import 'dart:mirrors';
+
+import 'package:characters/characters.dart';
+import 'dart:io';
+import 'dart:convert';
+void main(){
+  print("Введи смайлик:");
+  String me= stdin.readLineSync(encoding: utf8)!;
+
+
+  print(me);
+  print(me.runes);
+  print(me.runes.first.toRadixString(16));
+  print(me.runes.first.toRadixString(16).length);
+  print(me.codeUnits);
+  print(me.characters.length);
+}
