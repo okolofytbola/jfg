@@ -1,0 +1,349 @@
+// 1
+class Cup {
+  String drink;
+  double volume;
+  
+  Cup(this.drink, this.volume);
+  
+  void takeSip(double amount) {
+    if (volume >= amount) {
+      volume = volume - amount;
+      print("Выпито $amount мл. Осталось $volume мл");
+    } else {
+      print("Мало напитка!");
+    }
+  }
+}
+
+class Person {
+  String name;
+  
+  Person(this.name);
+  
+  void drinkFromCup(Cup cup, double amount) {
+    print("$name пьет");
+    cup.takeSip(amount);
+  }
+}
+
+// 2
+class Wardrobe {
+  List<String> items = [];
+  
+  void put(String item) {
+    items.add(item);
+    print("Положил $item в шкаф");
+  }
+  
+  void take(String item) {
+    if (items.contains(item)) {
+      items.remove(item);
+      print("Взял $item из шкафа");
+    } else {
+      print("$item нет в шкафу");
+    }
+  }
+}
+
+// 3
+class Plate {
+  double weight;
+  Plate(this.weight);
+}
+
+class Barbell {
+  double maxWeight;
+  List<Plate> left = [];
+  List<Plate> right = [];
+  
+  Barbell(this.maxWeight);
+  
+  double getTotalWeight() {
+    double sum = 0;
+    for (int i = 0; i < left.length; i++) {
+      sum = sum + left[i].weight;
+    }
+    for (int i = 0; i < right.length; i++) {
+      sum = sum + right[i].weight;
+    }
+    return sum;
+  }
+  
+  void addLeft(Plate plate) {
+    if (getTotalWeight() + plate.weight <= maxWeight) {
+      left.add(plate);
+      print("Блин слева. Вес: ${getTotalWeight()}кг");
+    } else {
+      print("Перегруз!");
+    }
+  }
+  
+  void addRight(Plate plate) {
+    if (getTotalWeight() + plate.weight <= maxWeight) {
+      right.add(plate);
+      print("Блин справа. Вес: ${getTotalWeight()}кг");
+    } else {
+      print("Перегруз!");
+    }
+  }
+}
+
+// 4
+class CurrencyConverter {
+  double rubToUsd(double rub) {
+    return rub / 92;
+  }
+  
+  double usdToRub(double usd) {
+    return usd * 92;
+  }
+  
+  double rubToEur(double rub) {
+    return rub / 100;
+  }
+  
+  double eurToRub(double eur) {
+    return eur * 100;
+  }
+}
+
+// 5
+class Garage<T> {
+  List<T> items = [];
+  
+  void park(T item) {
+    items.add(item);
+    print("Заехал в гараж");
+  }
+  
+  T take(int index) {
+    T item = items[index];
+    items.removeAt(index);
+    return item;
+  }
+}
+
+// 6
+class Number {
+  double value;
+  
+  Number(this.value);
+  
+  Number operator +(Number other) {
+    return Number(value + other.value);
+  }
+  
+  Number operator -(Number other) {
+    return Number(value - other.value);
+  }
+  
+  Number operator *(Number other) {
+    return Number(value * other.value);
+  }
+  
+  Number operator /(Number other) {
+    return Number(value / other.value);
+  }
+  
+  String toString() {
+    return "$value";
+  }
+}
+
+// 7
+enum CarState { stop, move, turnLeft, turnRight }
+
+class Car {
+  String model;
+  CarState state = CarState.stop;
+  
+  Car(this.model);
+  
+  void setState(CarState newState) {
+    state = newState;
+    if (state == CarState.stop) {
+      print("$model стоит");
+    }
+    if (state == CarState.move) {
+      print("$model едет");
+    }
+    if (state == CarState.turnLeft) {
+      print("$model повернул налево");
+    }
+    if (state == CarState.turnRight) {
+      print("$model повернул направо");
+    }
+  }
+}
+
+// 8
+abstract class Shape {
+  double area();
+}
+
+class Rectangle extends Shape {
+  double width;
+  double height;
+  
+  Rectangle(this.width, this.height);
+  
+  double area() {
+    return width * height;
+  }
+}
+
+class Triangle extends Shape {
+  double base;
+  double height;
+  
+  Triangle(this.base, this.height);
+  
+  double area() {
+    return 0.5 * base * height;
+  }
+}
+
+class Circle extends Shape {
+  double radius;
+  
+  Circle(this.radius);
+  
+  double area() {
+    return 3.14 * radius * radius;
+  }
+}
+
+// 9
+class NumberConverter {
+  String toHex(int number) {
+    return number.toRadixString(16);
+  }
+  
+  String toOctal(int number) {
+    return number.toRadixString(8);
+  }
+  
+  int fromHex(String hex) {
+    return int.parse(hex, radix: 16);
+  }
+  
+  int fromOctal(String octal) {
+    return int.parse(octal, radix: 8);
+  }
+}
+
+// 10
+class ShapeList {
+  List<Shape> shapes = [];
+  
+  void add(Shape shape) {
+    shapes.add(shape);
+  }
+  
+  Shape findMaxArea() {
+    Shape max = shapes[0];
+    for (int i = 0; i < shapes.length; i++) {
+      if (shapes[i].area() > max.area()) {
+        max = shapes[i];
+      }
+    }
+    return max;
+  }
+}
+
+// 11
+class Tableware {
+  String name;
+  Tableware(this.name);
+}
+
+class Fork extends Tableware {
+  Fork() : super("Вилка") {
+    
+  }
+}
+
+class Spoon extends Tableware {
+  Spoon() : super("Ложка") {
+    
+  }
+}
+
+class Knife extends Tableware {
+  Knife() : super("Нож") {
+    
+  }
+}
+
+class Table {
+  List<Tableware> items = [];
+  
+  void put(Tableware item) {
+    items.add(item);
+    print("${item.name} на столе");
+  }
+  
+  void take(Tableware item) {
+    if (items.contains(item)) {
+      items.remove(item);
+      print("${item.name} убран со стола");
+    }
+  }
+}
+
+void main() {
+  print("1");
+  Cup cup = Cup("Чай", 300);
+  Person person = Person("Вася");
+  person.drinkFromCup(cup, 100);
+  
+  print("\n2");
+  Wardrobe wardrobe = Wardrobe();
+  wardrobe.put("Шапка");
+  wardrobe.take("Шапка");
+  
+  print("\n3");
+  Barbell barbell = Barbell(100);
+  Plate plate10 = Plate(10);
+  barbell.addLeft(plate10);
+  barbell.addRight(plate10);
+  
+  print("\n4");
+  CurrencyConverter conv = CurrencyConverter();
+  print("100 RUB = ${conv.rubToUsd(100)} USD");
+  
+  print("\n5");
+  Garage garage = Garage();
+  garage.park("Toyota");
+  
+  print("\n6");
+  Number a = Number(10);
+  Number b = Number(5);
+  print(a + b);
+  
+  print("\n7");
+  Car car = Car("BMW");
+  car.setState(CarState.move);
+  car.setState(CarState.stop);
+  
+  print("\n8");
+  Circle circle = Circle(5);
+  print("Площадь круга: ${circle.area()}");
+  
+  print("\n9");
+  NumberConverter nc = NumberConverter();
+  print("255 в hex: ${nc.toHex(255)}");
+  
+  print("\n10");
+  ShapeList list = ShapeList();
+  list.add(Rectangle(4, 5));
+  list.add(Circle(3));
+  print("Макс площадь: ${list.findMaxArea().area()}");
+  
+  print("\n11");
+  Table table = Table();
+  Fork fork = Fork();
+  Spoon spoon = Spoon();
+  table.put(fork);
+  table.put(spoon);
+}
