@@ -44,50 +44,6 @@ class Wardrobe {
     }
   }
 }
-
-// 3
-class Plate {
-  double weight;
-  Plate(this.weight);
-}
-
-class Barbell {
-  double maxWeight;
-  List<Plate> left = [];
-  List<Plate> right = [];
-  
-  Barbell(this.maxWeight);
-  
-  double getTotalWeight() {
-    double sum = 0;
-    for (int i = 0; i < left.length; i++) {
-      sum = sum + left[i].weight;
-    }
-    for (int i = 0; i < right.length; i++) {
-      sum = sum + right[i].weight;
-    }
-    return sum;
-  }
-  
-  void addLeft(Plate plate) {
-    if (getTotalWeight() + plate.weight <= maxWeight) {
-      left.add(plate);
-      print("Блин слева. Вес: ${getTotalWeight()}кг");
-    } else {
-      print("Перегруз!");
-    }
-  }
-  
-  void addRight(Plate plate) {
-    if (getTotalWeight() + plate.weight <= maxWeight) {
-      right.add(plate);
-      print("Блин справа. Вес: ${getTotalWeight()}кг");
-    } else {
-      print("Перегруз!");
-    }
-  }
-}
-
 // 4
 class CurrencyConverter {
   double rubToUsd(double rub) {
@@ -213,44 +169,6 @@ class Circle extends Shape {
   }
 }
 
-// 9
-class NumberConverter {
-  String toHex(int number) {
-    return number.toRadixString(16);
-  }
-  
-  String toOctal(int number) {
-    return number.toRadixString(8);
-  }
-  
-  int fromHex(String hex) {
-    return int.parse(hex, radix: 16);
-  }
-  
-  int fromOctal(String octal) {
-    return int.parse(octal, radix: 8);
-  }
-}
-
-// 10
-class ShapeList {
-  List<Shape> shapes = [];
-  
-  void add(Shape shape) {
-    shapes.add(shape);
-  }
-  
-  Shape findMaxArea() {
-    Shape max = shapes[0];
-    for (int i = 0; i < shapes.length; i++) {
-      if (shapes[i].area() > max.area()) {
-        max = shapes[i];
-      }
-    }
-    return max;
-  }
-}
-
 // 11
 class Tableware {
   String name;
@@ -301,12 +219,7 @@ void main() {
   Wardrobe wardrobe = Wardrobe();
   wardrobe.put("Шапка");
   wardrobe.take("Шапка");
-  
-  print("\n3");
-  Barbell barbell = Barbell(100);
-  Plate plate10 = Plate(10);
-  barbell.addLeft(plate10);
-  barbell.addRight(plate10);
+
   
   print("\n4");
   CurrencyConverter conv = CurrencyConverter();
@@ -329,16 +242,6 @@ void main() {
   print("\n8");
   Circle circle = Circle(5);
   print("Площадь круга: ${circle.area()}");
-  
-  print("\n9");
-  NumberConverter nc = NumberConverter();
-  print("255 в hex: ${nc.toHex(255)}");
-  
-  print("\n10");
-  ShapeList list = ShapeList();
-  list.add(Rectangle(4, 5));
-  list.add(Circle(3));
-  print("Макс площадь: ${list.findMaxArea().area()}");
   
   print("\n11");
   Table table = Table();
